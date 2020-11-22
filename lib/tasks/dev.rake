@@ -11,8 +11,8 @@ namespace :dev do
         show_spinner("Cadastrando o administrador padrão...") { %x(rails dev:add_default_admin) }
         show_spinner("Cadastrando administradores extras...") { %x(rails dev:add_extra_admins) }
         show_spinner("Cadastrando o usuário padrão...") { %x(rails dev:add_default_user) }
-        show_spinner("Cadastrando assuntos padrões...") { %x(rails dev:add_subjects) }
-        show_spinner("Cadastrando perguntas e respostas...") { %x(rails dev:add_answers_and_questions) }
+#        show_spinner("Cadastrando assuntos padrões...") { %x(rails dev:add_subjects) }
+#        show_spinner("Cadastrando perguntas e respostas...") { %x(rails dev:add_answers_and_questions) }
       else
         puts "Você não está em ambiente de desenvolvimento!"
       end
@@ -27,6 +27,17 @@ namespace :dev do
       )
     end
   
+    
+    desc "Adiciona o administrador extras Faker para testar sistema"
+    task add_extra_admins: :environment do
+      10.times do |i|
+      Admin.create!(
+        email: Faker::Internet.email,
+        password: DEFAULT_PASSWORD,
+        password_confirmation: DEFAULT_PASSWORD
+      )
+      end
+    end
  
     desc "Adiciona o usuário padrão"
     task add_default_user: :environment do
