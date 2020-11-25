@@ -1,9 +1,9 @@
 class AdminsBackoffice::AdminsController < AdminsBackofficeController
   before_action :verify_password, only: [:update]
-  before_action :set_admin, only: [:edit, :update]
+  before_action :set_admin, only: [:edit, :update, :destroy]
   
   def index
-      @admins = Admin.all
+      @admins = Admin.all.page(params[:page]).per(5)
   end
 
   def new
@@ -28,7 +28,6 @@ class AdminsBackoffice::AdminsController < AdminsBackofficeController
     else
       render :edit
     end
-
   end
 
   def destroy
@@ -42,6 +41,7 @@ class AdminsBackoffice::AdminsController < AdminsBackofficeController
 
 
   private
+
   def params_admin
     params.require(:admin).permit(:email, :password, :password_confirmation)
   end
